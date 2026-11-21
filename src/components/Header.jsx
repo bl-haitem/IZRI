@@ -1,22 +1,21 @@
 import React, { useState } from 'react';
-import { Search, Bell, Menu, CheckCircle2, AlertTriangle, Plus, Info, X, Store, Factory } from 'lucide-react';
+import { Search, Bell, Menu, CheckCircle2, AlertTriangle, Plus, Info, X, Store } from 'lucide-react';
 
 export default function Header({ 
-  title = "Tableau de Bord", 
-  subtitle = "VMS Industrie",
+  title = "Tableau de Bord Showroom", 
+  subtitle = "SARL Alger Moto Performance",
   onOpenSidebar = () => {},
   onOpenNewSale = () => {},
   searchQuery = "",
   setSearchQuery = () => {},
-  roleMode = "superadmin",
   currentShowroom = null,
 }) {
   const [showNotifications, setShowNotifications] = useState(false);
 
   const notifications = [
-    { id: 1, title: "Stock Critique : VMS Driver 125", desc: "42 unités restantes.", type: "alert" },
-    { id: 2, title: "125 Enregistrements en attente", desc: "Certificats à vérifier.", type: "info" },
-    { id: 3, title: "Hausse Demande : VMS XDV 300", desc: "+31.2% commandes Est.", type: "success" },
+    { id: 1, title: "Livraison Camion Usine Akbou", desc: "12 motos en transit, arrivée demain 14h.", type: "info" },
+    { id: 2, title: "18 Dossiers Carte Grise à certifier", desc: "Dossiers Daïra reçus au comptoir.", type: "alert" },
+    { id: 3, title: "Stock Faible : VMS Cuxi 2", desc: "Plus que 6 unités disponibles au hall.", type: "alert" },
   ];
 
   return (
@@ -29,17 +28,10 @@ export default function Header({
           <div className="min-w-0">
             <div className="flex items-center gap-2">
               <h1 className="text-lg font-bold text-[#191919] truncate">{title}</h1>
-              {roleMode === 'showroom' ? (
-                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-red-50 text-[#E30613] border border-red-200 text-[10px] font-bold">
-                  <Store className="w-3 h-3" />
-                  Showroom Alger
-                </span>
-              ) : (
-                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-gray-100 text-[#191919] border border-gray-200 text-[10px] font-bold">
-                  <Factory className="w-3 h-3 text-[#E30613]" />
-                  Vue Usine
-                </span>
-              )}
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-red-50 text-[#E30613] border border-red-200 text-[10px] font-bold">
+                <Store className="w-3 h-3" />
+                {currentShowroom?.name || 'Showroom Alger (DZ-16-001)'}
+              </span>
             </div>
             <p className="text-[11px] text-[#777777] truncate">{subtitle}</p>
           </div>
@@ -50,10 +42,10 @@ export default function Header({
             <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400" />
             <input
               type="text"
-              placeholder="Rechercher..."
+              placeholder="Rechercher client, VIN, moto..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="bg-[#F5F5F7] border border-gray-200 rounded-lg pl-8 pr-3 py-1.5 text-xs text-[#191919] placeholder:text-gray-400 focus:outline-none focus:border-[#E30613] w-40 lg:w-48"
+              className="bg-[#F5F5F7] border border-gray-200 rounded-lg pl-8 pr-3 py-1.5 text-xs text-[#191919] placeholder:text-gray-400 focus:outline-none focus:border-[#E30613] w-44 lg:w-56"
             />
           </div>
 
@@ -66,10 +58,10 @@ export default function Header({
               <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-[#E30613] ring-2 ring-white"></span>
             </button>
             {showNotifications && (
-              <div className="absolute right-0 mt-2 w-64 bg-white rounded-xl shadow-xl border border-gray-200 py-1 z-50">
+              <div className="absolute right-0 mt-2 w-72 bg-white rounded-xl shadow-xl border border-gray-200 py-1 z-50 animate-in fade-in zoom-in-95 duration-100">
                 <div className="px-3 py-2 border-b border-gray-100 flex items-center justify-between">
-                  <span className="text-xs font-bold text-[#191919]">Notifications</span>
-                  <button onClick={() => setShowNotifications(false)} className="text-gray-400 hover:text-gray-700"><X className="w-3.5 h-3.5" /></button>
+                  <span className="text-xs font-bold text-[#191919]">Notifications Magasin</span>
+                  <button onClick={() => setShowNotifications(false)} className="text-gray-400 hover:text-gray-700 cursor-pointer"><X className="w-3.5 h-3.5" /></button>
                 </div>
                 <div className="divide-y divide-gray-100">
                   {notifications.map((n) => (
@@ -92,10 +84,10 @@ export default function Header({
 
           <button
             onClick={onOpenNewSale}
-            className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-[#E30613] text-white text-xs font-bold hover:bg-[#C40510] shadow-sm cursor-pointer"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#E30613] text-white text-xs font-bold hover:bg-[#C40510] shadow-sm transition-all cursor-pointer"
           >
             <Plus className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">{roleMode === 'showroom' ? 'Vente Comptoir' : 'Vente'}</span>
+            <span>Vente Comptoir</span>
           </button>
         </div>
       </div>
